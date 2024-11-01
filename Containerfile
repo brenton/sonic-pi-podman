@@ -10,6 +10,8 @@ ENV LC_ALL en_US.UTF-8
 run dnf -y install strace
 
 run dnf install -y 'dnf-command(copr)'
+
+# TODO For some reason the copr command wasn't working well with podman build.
 add _copr:copr.fedorainfracloud.org:ycollet:audinux.repo /etc/yum.repos.d
 run dnf install -y pipewire-jack-audio-connection-kit-libs pipewire-utils tmux vim realTimeConfigQuickScan 
 add sonic-pi.spec /root
@@ -18,6 +20,8 @@ run dnf builddep -y sonic-pi.spec
 add gai.conf /etc/
 run gem install prime
 
+# I may switch this to cloning the git repo instead of working from my local
+# source. Do what you want here.
 copy sonic-pi /root/
 run dnf install -y git wayland-devel libxkbcommon-devel libXext-devel vcpkg libatomic elixir coreutils
 run app/linux-build-all.sh 2>&1 | tee sonic-pi-build_out.txt
